@@ -69,7 +69,7 @@ contract MyEpicNFT is ERC721URIStorage {
     console.log("CombinedWord is: ", combinedWord);
 
     // I concatenate it all together, and then close the <text> and <svg> tags.
-    string memory finalSvg = string(abi.encodePacked(baseSvg, first, second, third, "</text></svg>"));
+    string memory finalSvg = string(abi.encodePacked(baseSvg, combinedWord, "</text></svg>"));
     console.log("\n--------------------");
     console.log(finalSvg);
     console.log("--------------------\n");
