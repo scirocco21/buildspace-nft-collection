@@ -26,29 +26,30 @@ contract MyEpicNFT is ERC721URIStorage {
   string[] secondWords = ["Dream", "Mushroom", "Psilocybin", "Chemtrails", "Cryptid", "Government", "Elevator", "Helicopter", "Reptile", "Mothman", "Flag", "People", "Fluoride" ];
   string[] thirdWords = ["Conspiracy", "Experiment", "Replicator", "Vortex", "Archetype", "Cipher", "Habitat", "Extraction", "Absorption", "Code", "Motif", "Subterfuge", "Operation"];
 
+  event NewEpicNFTMinted(address sender, uint256 tokenId);
+
   // We need to pass the name of our NFTs token and it's symbol.
   constructor() ERC721 ("SecretNFT", "SCRT") {
     console.log("This is my NFT contract. Woah!");
   }
 
-
   // I create a function to randomly pick a word from each array.
   function pickRandomFirstWord(uint256 tokenId) public view returns (string memory) {
     // I seed the random generator. More on this in the lesson. 
-    uint256 rand = random(string(abi.encodePacked("FIRST_WORD", Strings.toString(tokenId +2))));
+    uint256 rand = random(string(abi.encodePacked("FIRST_WORD", Strings.toString(tokenId))));
     // Squash the # between 0 and the length of the array to avoid going out of bounds.
     rand = rand % firstWords.length;
     return firstWords[rand];
   }
 
   function pickRandomSecondWord(uint256 tokenId) public view returns (string memory) {
-    uint256 rand = random(string(abi.encodePacked("SECOND_WORD", Strings.toString(tokenId +2))));
+    uint256 rand = random(string(abi.encodePacked("SECOND_WORD", Strings.toString(tokenId))));
     rand = rand % secondWords.length;
     return secondWords[rand];
   }
 
   function pickRandomThirdWord(uint256 tokenId) public view returns (string memory) {
-    uint256 rand = random(string(abi.encodePacked("THIRD_WORD", Strings.toString(tokenId +2))));
+    uint256 rand = random(string(abi.encodePacked("THIRD_WORD", Strings.toString(tokenId))));
     rand = rand % thirdWords.length;
     return thirdWords[rand];
   }
@@ -118,5 +119,7 @@ contract MyEpicNFT is ERC721URIStorage {
 
     // Increment the counter for when the next NFT is minted.
     _tokenIds.increment();
+
+    emit NewEpicNFTMinted(msg.sender, newItemId);
   }
 }
