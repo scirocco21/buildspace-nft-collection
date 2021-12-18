@@ -16,6 +16,7 @@ contract MyEpicNFT is ERC721URIStorage {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
+  uint256 public MAX_MINT = 50; 
 // This is our SVG code. All we need to change is the word that's displayed. Everything else stays the same.
   // So, we make a baseSvg variable here that all our NFTs can use.
   string baseSvg = "<svg xmlns='http://www.w3.org/2000/svg' preserveAspectRatio='xMinYMin meet' viewBox='0 0 350 350'><style>.base { fill: white; font-family: serif; font-size: 24px; }</style><rect width='100%' height='100%' fill='black' /><text x='50%' y='50%' class='base' dominant-baseline='middle' text-anchor='middle'>";
@@ -58,11 +59,16 @@ contract MyEpicNFT is ERC721URIStorage {
       return uint256(keccak256(abi.encodePacked(input)));
   }
 
+  function getTotalMinted() public view returns (uint256) {
+      uint256 totalMinted = _tokenIds.current();
+      return totalMinted;
+  }
+
   // A function our user will hit to get their NFT.
   function makeAnEpicNFT() public {
      // Get the current tokenId, this starts at 0.
     uint256 newItemId = _tokenIds.current();
-
+    require(newItemId <= 50, "All NFTs have already been minted");
     string memory first = pickRandomFirstWord(newItemId);
     string memory second = pickRandomSecondWord(newItemId);
     string memory third = pickRandomThirdWord(newItemId);
